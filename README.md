@@ -1,16 +1,17 @@
 # fatjonmeci.com
 
-Personal website for Fatjon Meci, built with Next.js and designed as a bright editorial profile with interactive, crawlable content.
+Static personal website for Fatjon Meci.
 
-## Local development
+This version is designed for simple Namecheap/cPanel hosting: upload the files in this repository to `public_html`, or use cPanel Git deployment to pull the repository and serve it directly.
 
-```bash
-npm install
-npm run dev
-```
+## Files
 
-## Deployment
+- `index.html` - the complete single-page website
+- `styles.css` - responsive visual system and mobile layouts
+- `script.js` - lightweight interactions and the desktop signal map
+- `assets/fatjon-hero.jpg` - local hero image asset
+- `robots.txt`, `sitemap.xml`, `llms.txt` - crawler and AI context files
 
-The intended deployment target is Vercel with the custom domain `fatjonmeci.com`.
+## DNS / hosting note
 
-When configuring DNS, only add or change the web records required by Vercel. Do not remove or alter existing MX, SPF, DKIM, or DMARC records because the domain is already used for email.
+Only point the web root to these static files. Do not remove MX, SPF, DKIM, or DMARC records because the domain is used for email.

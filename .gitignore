@@ -8,3 +8,5 @@ dist/
 coverage/
 *.tsbuildinfo
 .env*.local
+exploration-report-*.html
+exploration-transcript-*.md

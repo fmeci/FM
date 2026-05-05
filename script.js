@@ -23,6 +23,11 @@ const signalEdges = [
   ["design", "building"], ["juventus", "leadership"], ["building", "vibe"]
 ];
 
+function trackEvent(event, params = {}) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event, ...params });
+}
+
 function initNav() {
   const nav = document.querySelector("[data-nav]");
   const toggle = document.querySelector("[data-menu-toggle]");
@@ -75,7 +80,24 @@ function initReveal() {
 
 function initBuildItems() {
   document.querySelectorAll(".build-item").forEach((item) => {
-    item.addEventListener("click", () => item.classList.toggle("active"));
+    item.addEventListener("click", () => {
+      const isActive = item.classList.toggle("active");
+      trackEvent("build_item_toggle", {
+        item_name: item.querySelector("strong")?.textContent?.trim() || "Unknown",
+        item_state: isActive ? "open" : "closed"
+      });
+    });
+  });
+}
+
+function initTracking() {
+  document.querySelectorAll('a[href^="mailto:"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      trackEvent("contact_click", {
+        link_text: link.textContent.trim(),
+        link_url: link.getAttribute("href")
+      });
+    });
   });
 }
 
@@ -155,7 +177,13 @@ function initSignalMap() {
   canvas.addEventListener("click", (event) => {
     const rect = canvas.getBoundingClientRect();
     const hit = nodeAt(event.clientX - rect.left, event.clientY - rect.top);
-    if (hit) setActive(hit);
+    if (hit) {
+      setActive(hit);
+      trackEvent("signal_map_select", {
+        node_id: hit.id,
+        node_label: hit.label
+      });
+    }
   });
 
   const draw = () => {
@@ -229,6 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initNav();
   initReveal();
   initBuildItems();
+  initTracking();
   initStars();
   initSignalMap();
 });
